@@ -1,0 +1,393 @@
+/* ══════════════════════════════════════
+   AI Insights Page — Dedicated Styles
+   ══════════════════════════════════════ */
+
+/* Tab Bar */
+.ai-tabs {
+    display: flex;
+    gap: 4px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 4px;
+    margin-bottom: 24px;
+    width: fit-content;
+}
+
+.ai-tab-btn {
+    padding: 9px 20px;
+    border-radius: calc(var(--radius) - 2px);
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 500;
+    font-family: var(--font);
+    cursor: pointer;
+    transition: var(--transition);
+    white-space: nowrap;
+}
+
+.ai-tab-btn--active {
+    background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+    color: white;
+    box-shadow: 0 2px 12px rgba(139, 92, 246, 0.35);
+}
+
+.ai-tab-btn:hover:not(.ai-tab-btn--active) {
+    background: rgba(148, 163, 184, 0.08);
+    color: var(--text-primary);
+}
+
+/* Loading State */
+.ai-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: 300px;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.ai-loading__spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(139, 92, 246, 0.2);
+    border-top-color: #8b5cf6;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Model info banner */
+.ai-model-badge {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(59, 130, 246, 0.06));
+    border: 1px solid rgba(139, 92, 246, 0.25);
+    border-radius: var(--radius);
+    padding: 14px 20px;
+    margin-top: 16px;
+}
+
+.ai-model-badge__icon {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.ai-model-badge__name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.ai-model-badge__meta {
+    font-size: 11px;
+    color: #64748b;
+    margin-top: 2px;
+    font-family: monospace;
+}
+
+.ai-model-badge__r2 {
+    margin-left: auto;
+    font-size: 18px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Chart legend */
+.ai-chart-legend {
+    display: flex;
+    gap: 24px;
+    margin-top: 8px;
+}
+
+.ai-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.ai-legend-line {
+    width: 24px;
+    height: 3px;
+    border-radius: 2px;
+}
+
+.ai-legend-line--actual {
+    background: #22c55e;
+}
+
+.ai-legend-line--predicted {
+    background: #8b5cf6;
+    background: repeating-linear-gradient(90deg, #8b5cf6 0, #8b5cf6 6px, transparent 6px, transparent 9px);
+}
+
+/* Tomorrow note */
+.ai-tomorrow-note {
+    background: rgba(249, 115, 22, 0.08);
+    border: 1px solid rgba(249, 115, 22, 0.2);
+    border-radius: var(--radius-sm);
+    padding: 8px 14px;
+    font-size: 12px;
+    color: #fb923c;
+    margin-bottom: 12px;
+}
+
+/* Confidence chips (tomorrow's hourly confidence) */
+.ai-confidence-chip {
+    background: rgba(139, 92, 246, 0.08);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 11px;
+    color: #a78bfa;
+    font-family: monospace;
+}
+
+/* Weekly forecast table */
+.ai-weekly-table {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ai-weekly-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    background: var(--bg-elevated);
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    border: 1px solid var(--border);
+}
+
+.ai-weekly-row--weekend {
+    opacity: 0.6;
+}
+
+.ai-weekly-day {
+    font-weight: 600;
+    color: var(--text-primary);
+    min-width: 54px;
+}
+
+.ai-weekly-peak {
+    color: var(--text-secondary);
+    flex: 1;
+}
+
+.ai-weekly-peak b {
+    color: #8b5cf6;
+}
+
+.ai-weekly-avg {
+    color: #64748b;
+}
+
+/* Model note */
+.ai-model-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    background: rgba(59, 130, 246, 0.06);
+    border: 1px solid rgba(59, 130, 246, 0.15);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: 16px;
+}
+
+/* Efficiency Hero Section */
+.ai-efficiency-hero {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 24px;
+    align-items: start;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 0;
+}
+
+.ai-efficiency-hero__gauge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ai-efficiency-hero__stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.ai-eff-stat {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px;
+    background: var(--bg-elevated);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+}
+
+.ai-eff-stat__icon {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.ai-eff-stat__label {
+    font-size: 11px;
+    color: #64748b;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.ai-eff-stat__value {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.ai-eff-stat__sub {
+    font-size: 11px;
+    color: #64748b;
+    margin-top: 2px;
+}
+
+.ai-eff-stat__sub--good {
+    color: #22c55e;
+}
+
+.ai-eff-stat__sub--bad {
+    color: #f87171;
+}
+
+/* Score breakdown */
+.ai-score-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.ai-score-row {
+    padding: 4px 0;
+}
+
+/* Voltage stats chips */
+.ai-voltage-stats {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
+
+.ai-voltage-chip {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 10px 16px;
+    background: var(--bg-elevated);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+}
+
+.ai-voltage-chip__label {
+    font-size: 10px;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.ai-voltage-chip__value {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* Offline banner (ML service not running) */
+.ai-offline-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    background: rgba(239, 68, 68, 0.06);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    margin: 40px auto;
+    max-width: 580px;
+}
+
+.ai-offline-banner__icon {
+    font-size: 36px;
+    flex-shrink: 0;
+    filter: grayscale(0.2);
+}
+
+.ai-offline-banner__title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #f87171;
+    margin-bottom: 8px;
+}
+
+.ai-offline-banner__desc {
+    font-size: 13px;
+    color: #94a3b8;
+    margin-bottom: 12px;
+}
+
+.ai-offline-banner__cmd {
+    display: block;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: var(--radius-sm);
+    padding: 9px 14px;
+    font-size: 13px;
+    font-family: monospace;
+    color: #a78bfa;
+    letter-spacing: 0.3px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .ai-efficiency-hero {
+        grid-template-columns: 1fr;
+    }
+
+    .ai-efficiency-hero__stats {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .ai-tabs {
+        width: 100%;
+        justify-content: stretch;
+    }
+
+    .ai-tab-btn {
+        flex: 1;
+        text-align: center;
+        padding: 9px 8px;
+        font-size: 12px;
+    }
+}

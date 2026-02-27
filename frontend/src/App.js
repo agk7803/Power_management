@@ -4,6 +4,38 @@ import Landing from './pages/Landing';
 import AuthPage from './pages/Authpage';
 import { AuthProvider, useAuth } from "./context/AuthContext";
 
+function ProtectedRoute({ children, page }) {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div style={{
+        display: "flex", alignItems: "center", justifyContent: "center",
+        height: "100vh", background: "#0a0e1a", color: "#94a3b8",
+        fontFamily: "Inter, sans-serif", fontSize: "1.1rem"
+      }}>
+        <div style={{ textAlign: "center" }}>
+          <div style={{ fontSize: "2rem", marginBottom: "1rem" }}>⚡</div>
+          Loading...
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <Navigate to="/auth" replace />;
+  }
+
+  // Check role access
+  if (page) {
+    const allowed = ROLE_ACCESS[user.role] || ROLE_ACCESS.student;
+    if (!allowed.includes(page)) {
+      return <Navigate to="/dashboard" replace />;
+    }
+  }
+
+  return children;
+}
 function App() {
   return (
     <>

@@ -2,6 +2,13 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import User from "../Models/User.js";
 
+const isProd = process.env.NODE_ENV === "production";
+const cookieOpts = {
+  httpOnly: true,
+  secure: isProd,
+  sameSite: isProd ? "none" : "lax",
+  maxAge: 7 * 24 * 60 * 60 * 1000
+};
 // ---------------------------
 // REGISTER
 // ---------------------------
@@ -34,12 +41,7 @@ export const register = async (req, res) => {
     );
 
     // ✅ SET COOKIE BEFORE RESPONSE
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,      // HTTPS (Vercel + Railway)
-      sameSite: "none",  // cross-origin cookies
-      maxAge: 7 * 24 * 60 * 60 * 1000
-    });
+    res.cookie("token", token, cookieOpts);
 
     // ✅ SEND RESPONSE ONCE
     res.status(201).json({
@@ -81,12 +83,7 @@ export const login = async (req, res) => {
     );
 
     // ✅ SET COOKIE
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,       // REQUIRED on Vercel + Railway
-      sameSite: "none",   // REQUIRED for cross-origin
-      maxAge: 7 * 24 * 60 * 60 * 1000
-    });
+    res.cookie("token", token, cookieOpts);
 
     res.json({
       user: {
@@ -126,8 +123,8 @@ export const logout = async (req, res) => {
   try {
     res.clearCookie("token", {
       httpOnly: true,
-      secure: true,     // REQUIRED on Vercel + Railway
-      sameSite: "none", // REQUIRED for cross-origin
+      secure: isProd,
+      sameSite: isProd ? "none" : "lax",
     });
 
     res.status(200).json({ message: "Logged out successfully" });

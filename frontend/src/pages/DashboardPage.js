@@ -40,7 +40,7 @@ function DashboardPage() {
     }, [fetchData]);
 
     const stats = dashboard ? [
-        { icon: "⚡", label: "Total Campus Power", value: `${dashboard.activeDevices} active`, change: `${dashboard.totalDevices} total`, changeType: "neutral", color: "blue" },
+        { icon: "⚡", label: "Total Campus Power", value: `${dashboard.totalPower || 0}W`, change: `${dashboard.activeDevices} devices`, changeType: "neutral", color: "blue" },
         { icon: "🏫", label: "Active Classrooms", value: `${dashboard.activeRooms}`, change: "rooms", changeType: "neutral", color: "purple" },
         { icon: "🔋", label: "Energy Today", value: `${formatValue(dashboard.energyToday)} kWh`, change: "today", changeType: "neutral", color: "green" },
         { icon: "💰", label: "Today's Cost", value: `₹${formatValue(dashboard.costToday)}`, change: "savings", changeType: "down", color: "emerald" },

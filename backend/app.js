@@ -25,6 +25,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:5001",
   "http://localhost:3000"
+
 ];
 
 const corsOptions = {
@@ -34,6 +35,11 @@ const corsOptions = {
     if (!origin) return callback(null, true);
 
     if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    // Allow any device on local network
+    if (origin.match(/^http:\/\/192\.168\.\d+\.\d+(:\d+)?$/)) {
       return callback(null, true);
     }
 

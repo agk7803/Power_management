@@ -184,7 +184,7 @@ export default function Landing() {
           <li><a href="#why">Why Us</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
-        <button className="landing-nav-cta" data-hover onClick={() => navigate('/auth')}>Get Demo</button>
+        <button className="landing-nav-cta" data-hover onClick={() => navigate('/auth')}>Login</button>
       </nav>
 
       {/* ── HERO ── */}

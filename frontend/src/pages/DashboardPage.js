@@ -3,12 +3,15 @@ import { useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
 import { api } from "../services/api";
 import "../styles/DashboardPage.css";
+<<<<<<< Updated upstream
 
 const formatValue = (val) => {
     if (val === null || val === undefined) return "0.0";
     const num = parseFloat(val);
     return isNaN(num) ? val : num.toFixed(1);
 };
+=======
+>>>>>>> Stashed changes
 
 function DashboardPage() {
     const navigate = useNavigate();

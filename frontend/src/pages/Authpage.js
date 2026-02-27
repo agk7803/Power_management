@@ -154,7 +154,6 @@ function AuthPage() {
             <BatterySvg className="landing-float landing-float--batt-l landing-parallax-slow" data-speed="0.09" />
             <BatterySvg className="landing-float landing-float--batt-r landing-parallax-slow" data-speed="0.07" />
 
-            {/* Scan line */}
             <div className="landing-hero-scanline" />
 
             <div className="auth-container" style={{ zIndex: 10, background: '#111827' }}>

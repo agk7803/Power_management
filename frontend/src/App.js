@@ -2,7 +2,14 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Landing from './pages/Landing';
 import AuthPage from './pages/Authpage';
+import DashboardPage from './pages/DashboardPage';
 import { AuthProvider, useAuth } from "./context/AuthContext";
+
+const ROLE_ACCESS = {
+  admin: ["dashboard", "classrooms", "analytics", "ai-insights", "cost", "carbon", "leaderboard", "alerts", "admin", "automation"],
+  faculty: ["dashboard", "classrooms", "analytics", "ai-insights", "cost", "carbon", "leaderboard", "alerts", "automation"],
+  student: ["dashboard", "classrooms", "leaderboard", "carbon"],
+};
 
 function ProtectedRoute({ children, page }) {
   const { user, loading } = useAuth();
@@ -36,6 +43,7 @@ function ProtectedRoute({ children, page }) {
 
   return children;
 }
+
 function App() {
   return (
     <>

@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import Landing from "./pages/Landing";
-import AuthPage from "./pages/AuthPage";
+import AuthPage from "./pages/Authpage";
 import DashboardPage from "./pages/DashboardPage";
 import ClassroomsPage from "./pages/ClassroomsPage";
 import AnalyticsPage from "./pages/AnalyticsPage";

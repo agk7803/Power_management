@@ -106,7 +106,7 @@ function ClassroomsPage() {
 
     // Avg voltage/current from history (for past dates)
     const avgVoltage = history.length > 0 ? (history.reduce((s, e) => s + (e.voltage || 0), 0) / history.length).toFixed(1) : 0;
-    const avgCurrent = history.length > 0 ? (history.reduce((s, e) => s + (e.current || 0), 0) / history.length).toFixed(1) : 0;
+    const avgCurrent = history.length > 0 ? (history.reduce((s, e) => s + (e.current || 0), 0) / history.length).toFixed(4) : 0;
 
     return (
         <Layout>
@@ -191,7 +191,7 @@ function ClassroomsPage() {
                             </div>
                             <div className="stat-card stat-card--emerald">
                                 <div className="stat-card__header"><span className="stat-card__icon">📊</span></div>
-                                <div className="stat-card__value">{isToday ? (latestEnergy?.current?.toFixed(1) || avgCurrent) : avgCurrent}A</div>
+                                <div className="stat-card__value">{isToday ? (latestEnergy?.current?.toFixed(4) || avgCurrent) : avgCurrent}A</div>
                                 <div className="stat-card__label">{isToday ? "Current" : "Avg Current"}</div>
                             </div>
                         </div>

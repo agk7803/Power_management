@@ -2,7 +2,13 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
 import { api } from "../services/api";
-import "../styles/dashboardPage.css";
+import "../styles/DashboardPage.css";
+
+const formatValue = (val) => {
+    if (val === null || val === undefined) return "0.0";
+    const num = parseFloat(val);
+    return isNaN(num) ? val : num.toFixed(1);
+};
 
 function DashboardPage() {
     const navigate = useNavigate();
@@ -36,9 +42,9 @@ function DashboardPage() {
     const stats = dashboard ? [
         { icon: "⚡", label: "Total Campus Power", value: `${dashboard.activeDevices} active`, change: `${dashboard.totalDevices} total`, changeType: "neutral", color: "blue" },
         { icon: "🏫", label: "Active Classrooms", value: `${dashboard.activeRooms}`, change: "rooms", changeType: "neutral", color: "purple" },
-        { icon: "🔋", label: "Energy Today", value: dashboard.energyToday, change: "today", changeType: "neutral", color: "green" },
-        { icon: "💰", label: "Today's Cost", value: dashboard.costToday, change: "savings", changeType: "down", color: "emerald" },
-        { icon: "🌿", label: "CO₂ Emissions", value: dashboard.co2Today, change: "today", changeType: "down", color: "teal" },
+        { icon: "🔋", label: "Energy Today", value: `${formatValue(dashboard.energyToday)} kWh`, change: "today", changeType: "neutral", color: "green" },
+        { icon: "💰", label: "Today's Cost", value: `₹${formatValue(dashboard.costToday)}`, change: "savings", changeType: "down", color: "emerald" },
+        { icon: "🌿", label: "CO₂ Emissions", value: `${formatValue(dashboard.co2Today)} kg`, change: "today", changeType: "down", color: "teal" },
         { icon: "🚨", label: "Anomalies", value: `${dashboard.anomaliesToday}`, change: "today", changeType: dashboard.anomaliesToday > 0 ? "up" : "down", color: "red" },
     ] : [];
 
@@ -258,14 +264,14 @@ function DashboardPage() {
                                 <span className="summary-item__icon">🔋</span>
                                 <div>
                                     <p className="summary-item__label">Energy Today</p>
-                                    <p className="summary-item__value">{dashboard?.energyToday || "0 kWh"}</p>
+                                    <p className="summary-item__value">{dashboard ? `${formatValue(dashboard.energyToday)} kWh` : "0 kWh"}</p>
                                 </div>
                             </div>
                             <div className="summary-item">
                                 <span className="summary-item__icon">🌱</span>
                                 <div>
                                     <p className="summary-item__label">Carbon Today</p>
-                                    <p className="summary-item__value">{dashboard?.co2Today || "0 kg"}</p>
+                                    <p className="summary-item__value">{dashboard ? `${formatValue(dashboard.co2Today)} kg` : "0 kg"}</p>
                                 </div>
                             </div>
                         </div>
@@ -287,7 +293,7 @@ function DashboardPage() {
                                 <span className="summary-item__icon">💰</span>
                                 <div>
                                     <p className="summary-item__label">Cost Today</p>
-                                    <p className="summary-item__value">{dashboard?.costToday || "₹0"}</p>
+                                    <p className="summary-item__value">{dashboard ? `₹${formatValue(dashboard.costToday)}` : "₹0"}</p>
                                 </div>
                             </div>
                             <div className="summary-item">

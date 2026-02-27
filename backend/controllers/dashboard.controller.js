@@ -11,6 +11,7 @@ export const getDashboardData = async (req, res) => {
     try {
         const now = new Date();
         const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const fiveMinAgo = new Date(now.getTime() - 5 * 60 * 1000);
 
         // Total energy today
         const energyAgg = await EnergyData.aggregate([
@@ -24,10 +25,14 @@ export const getDashboardData = async (req, res) => {
         const activeDevices = await Device.countDocuments({ status: "ACTIVE" });
         const totalDevices = await Device.countDocuments();
 
-        // Active rooms (classrooms with active devices)
-        const activeRooms = await Classroom.countDocuments({
-            deviceId: { $ne: null }
-        });
+        // Total live campus power + active rooms — from latest energy readings (last 5 min)
+        const latestPerRoom = await EnergyData.aggregate([
+            { $match: { timestamp: { $gte: fiveMinAgo } } },
+            { $sort: { timestamp: -1 } },
+            { $group: { _id: "$classroomId", latestPower: { $first: "$power" } } }
+        ]);
+        const totalPower = Math.round(latestPerRoom.reduce((sum, r) => sum + (r.latestPower || 0), 0));
+        const activeRooms = latestPerRoom.length;
 
         // Recent alerts
         const alerts = await Alert.find()
@@ -43,6 +48,7 @@ export const getDashboardData = async (req, res) => {
         });
 
         res.status(200).json({
+            totalPower,
             energyToday: `${totals.totalEnergy.toFixed(2)} kWh`,
             costToday: `₹${totals.totalCost.toFixed(2)}`,
             co2Today: `${totals.totalCO2.toFixed(3)} kg`,

@@ -1,10 +1,19 @@
-import './App.css';
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import Landing from './pages/Landing';
-import AuthPage from './pages/Authpage';
-import DashboardPage from './pages/DashboardPage';
 import { AuthProvider, useAuth } from "./context/AuthContext";
+import Landing from "./pages/Landing";
+import AuthPage from "./pages/AuthPage";
+import DashboardPage from "./pages/DashboardPage";
+import ClassroomsPage from "./pages/ClassroomsPage";
+import AnalyticsPage from "./pages/AnalyticsPage";
+import AIInsightsPage from "./pages/AIInsightsPage";
+import CostPage from "./pages/CostPage";
+import CarbonPage from "./pages/CarbonPage";
+import LeaderboardPage from "./pages/LeaderboardPage";
+import AlertsPage from "./pages/AlertsPage";
+import AdminPage from "./pages/AdminPage";
+import AutomationPage from "./pages/AutomationPage";
 
+// Role access configuration
 const ROLE_ACCESS = {
   admin: ["dashboard", "classrooms", "analytics", "ai-insights", "cost", "carbon", "leaderboard", "alerts", "admin", "automation"],
   faculty: ["dashboard", "classrooms", "analytics", "ai-insights", "cost", "carbon", "leaderboard", "alerts", "automation"],
@@ -44,15 +53,12 @@ function ProtectedRoute({ children, page }) {
   return children;
 }
 
-function App() {
+function AppRoutes() {
   return (
-    <>
-    
     <Routes>
       <Route path="/" element={<Landing />} />
       <Route path="/auth" element={<AuthPage />} />
-      { <Route path="/dashboard" element={<ProtectedRoute page="dashboard"><DashboardPage /></ProtectedRoute>} />
-       /*
+      <Route path="/dashboard" element={<ProtectedRoute page="dashboard"><DashboardPage /></ProtectedRoute>} />
       <Route path="/classrooms" element={<ProtectedRoute page="classrooms"><ClassroomsPage /></ProtectedRoute>} />
       <Route path="/analytics" element={<ProtectedRoute page="analytics"><AnalyticsPage /></ProtectedRoute>} />
       <Route path="/ai-insights" element={<ProtectedRoute page="ai-insights"><AIInsightsPage /></ProtectedRoute>} />
@@ -61,9 +67,19 @@ function App() {
       <Route path="/leaderboard" element={<ProtectedRoute page="leaderboard"><LeaderboardPage /></ProtectedRoute>} />
       <Route path="/alerts" element={<ProtectedRoute page="alerts"><AlertsPage /></ProtectedRoute>} />
       <Route path="/admin" element={<ProtectedRoute page="admin"><AdminPage /></ProtectedRoute>} />
-      <Route path="*" element={<Navigate to="/dashboard" />} /> */}
+      <Route path="/automation" element={<ProtectedRoute page="automation"><AutomationPage /></ProtectedRoute>} />
+      <Route path="*" element={<Navigate to="/dashboard" />} />
     </Routes>
-    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AuthProvider>
+        <AppRoutes />
+      </AuthProvider>
+    </Router>
   );
 }
 

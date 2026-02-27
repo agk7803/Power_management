@@ -1,0 +1,599 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Exo+2:wght@300;400;500;600&family=Share+Tech+Mono&display=swap');
+
+/* ═══════════════════════════════════════════════════
+   ADMIN PAGE — EnergyIQ Dark Green Theme
+   Import this AFTER pages.css so shared tokens apply
+═══════════════════════════════════════════════════ */
+
+/* ── Keyframes ── */
+@keyframes fadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes toastIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes toastOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+}
+
+@keyframes modalIn {
+    from {
+        opacity: 0;
+        transform: translateY(-22px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes overlayIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -400px 0;
+    }
+
+    100% {
+        background-position: 400px 0;
+    }
+}
+
+/* ═══════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════ */
+.toast {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 18px;
+    margin-bottom: 18px;
+    background: rgba(0, 255, 178, 0.07);
+    border: 1px solid rgba(0, 255, 178, 0.28);
+    border-left: 3px solid #00ffb2;
+    border-radius: 4px;
+    color: #00ffb2;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    animation: toastIn 0.3s ease both;
+}
+
+.toast::before {
+    content: '✓';
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+/* ═══════════════════════════════════════════
+   TAB BAR
+═══════════════════════════════════════════ */
+.tab-bar {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 22px;
+    border-bottom: 1px solid rgba(0, 255, 178, 0.12);
+}
+
+.tab-btn {
+    padding: 11px 22px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: rgba(120, 170, 150, 0.5);
+    font-family: 'Orbitron', monospace;
+    font-size: 0.64rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: -1px;
+    border-radius: 4px 4px 0 0;
+    white-space: nowrap;
+}
+
+.tab-btn:hover {
+    color: rgba(180, 220, 205, 0.7);
+    background: rgba(0, 255, 178, 0.04);
+}
+
+.tab-btn--active {
+    color: #00ffb2;
+    border-bottom-color: #00ffb2;
+    background: rgba(0, 255, 178, 0.05);
+    text-shadow: 0 0 14px rgba(0, 255, 178, 0.45);
+}
+
+/* ═══════════════════════════════════════════
+   ADMIN SECTION
+═══════════════════════════════════════════ */
+.admin-section {
+    animation: fadeSlideUp 0.3s ease both;
+}
+
+.admin-section__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.admin-section__header h3 {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: rgba(180, 220, 205, 0.65);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+/* Admin loading state */
+.admin-loading {
+    padding: 3rem;
+    text-align: center;
+    color: rgba(120, 170, 150, 0.45);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    animation: fadeSlideUp 0.3s ease both;
+}
+
+.admin-loading::before {
+    content: '⟳  ';
+}
+
+/* ═══════════════════════════════════════════
+   TABLE
+═══════════════════════════════════════════ */
+.table-container {
+    background: #071410;
+    border: 1px solid rgba(0, 255, 178, 0.12);
+    border-radius: 6px;
+    overflow: hidden;
+    overflow-x: auto;
+    box-shadow:
+        0 0 0 1px rgba(0, 255, 178, 0.05),
+        0 4px 24px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(0, 255, 178, 0.03);
+}
+
+.table-container::-webkit-scrollbar {
+    height: 4px;
+}
+
+.table-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background: rgba(0, 255, 178, 0.15);
+    border-radius: 2px;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Exo 2', sans-serif;
+    font-size: 0.84rem;
+    min-width: 480px;
+}
+
+/* Head */
+.data-table thead tr {
+    background: rgba(0, 255, 178, 0.03);
+    border-bottom: 1px solid rgba(0, 255, 178, 0.12);
+}
+
+.data-table th {
+    padding: 13px 16px;
+    text-align: left;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.58rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(0, 255, 178, 0.55);
+    white-space: nowrap;
+}
+
+/* Body rows */
+.data-table tbody tr {
+    border-bottom: 1px solid rgba(0, 255, 178, 0.07);
+    transition: background 0.15s;
+}
+
+.data-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.data-table tbody tr:hover {
+    background: rgba(0, 255, 178, 0.025);
+}
+
+.data-table td {
+    padding: 13px 16px;
+    color: #e4f5ef;
+    vertical-align: middle;
+}
+
+.data-table td strong {
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.data-table td code {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.8rem;
+    color: rgba(0, 255, 178, 0.7);
+    background: rgba(0, 255, 178, 0.06);
+    border: 1px solid rgba(0, 255, 178, 0.12);
+    padding: 2px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.04em;
+}
+
+/* Empty row */
+.data-table .empty-row td {
+    text-align: center;
+    padding: 2.5rem;
+    color: rgba(120, 170, 150, 0.45);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.74rem;
+    letter-spacing: 0.06em;
+}
+
+.data-table .empty-row td::before {
+    content: '— ';
+}
+
+.data-table .empty-row td::after {
+    content: ' —';
+}
+
+/* ═══════════════════════════════════════════
+   TAGS / STATUS BADGES
+═══════════════════════════════════════════ */
+.tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    font-weight: 600;
+    border: 1px solid;
+    white-space: nowrap;
+}
+
+.tag--green {
+    color: #34d399;
+    border-color: rgba(52, 211, 153, 0.3);
+    background: rgba(52, 211, 153, 0.07);
+}
+
+.tag--blue {
+    color: #60a5fa;
+    border-color: rgba(96, 165, 250, 0.3);
+    background: rgba(96, 165, 250, 0.07);
+}
+
+.tag--purple {
+    color: #c084fc;
+    border-color: rgba(192, 132, 252, 0.3);
+    background: rgba(192, 132, 252, 0.07);
+}
+
+.tag--red {
+    color: #f87171;
+    border-color: rgba(248, 113, 113, 0.3);
+    background: rgba(248, 113, 113, 0.07);
+}
+
+.tag--gray {
+    color: rgba(120, 170, 150, 0.6);
+    border-color: rgba(0, 255, 178, 0.12);
+    background: rgba(0, 255, 178, 0.04);
+}
+
+/* ═══════════════════════════════════════════
+   BUTTONS  (admin extras on top of pages.css)
+═══════════════════════════════════════════ */
+.btn--sm {
+    padding: 6px 14px;
+    font-size: 0.62rem;
+    letter-spacing: 0.09em;
+}
+
+.btn--danger {
+    background: rgba(248, 113, 113, 0.07);
+    color: #f87171;
+    border: 1px solid rgba(248, 113, 113, 0.22);
+    border-radius: 4px;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn--danger:hover {
+    background: rgba(248, 113, 113, 0.14);
+    border-color: rgba(248, 113, 113, 0.45);
+    box-shadow: 0 0 12px rgba(248, 113, 113, 0.18);
+    transform: translateY(-1px);
+}
+
+.btn--danger:active {
+    transform: translateY(0);
+}
+
+/* ═══════════════════════════════════════════
+   MODAL OVERLAY
+═══════════════════════════════════════════ */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(3, 15, 9, 0.82);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+    animation: overlayIn 0.25s ease both;
+}
+
+/* ── Modal Box ── */
+.modal {
+    background: #0d1f18;
+    border: 1px solid rgba(0, 255, 178, 0.28);
+    border-radius: 6px;
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow:
+        0 0 0 1px rgba(0, 255, 178, 0.08),
+        0 0 50px rgba(0, 255, 178, 0.10),
+        0 24px 60px rgba(0, 0, 0, 0.8);
+    animation: modalIn 0.3s ease both;
+}
+
+.modal::-webkit-scrollbar {
+    width: 4px;
+}
+
+.modal::-webkit-scrollbar-thumb {
+    background: rgba(0, 255, 178, 0.15);
+    border-radius: 2px;
+}
+
+.modal__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    border-bottom: 1px solid rgba(0, 255, 178, 0.12);
+    background: rgba(0, 255, 178, 0.025);
+}
+
+.modal__header h3 {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #00ffb2;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 0;
+    text-shadow: 0 0 16px rgba(0, 255, 178, 0.4);
+}
+
+.modal__close {
+    background: none;
+    border: 1px solid rgba(0, 255, 178, 0.15);
+    color: rgba(120, 170, 150, 0.6);
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.modal__close:hover {
+    border-color: rgba(0, 255, 178, 0.4);
+    color: #00ffb2;
+    background: rgba(0, 255, 178, 0.06);
+}
+
+.modal__form {
+    padding: 22px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* ═══════════════════════════════════════════
+   FORM ELEMENTS
+═══════════════════════════════════════════ */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.62rem;
+    font-weight: 600;
+    color: rgba(0, 255, 178, 0.65);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="number"],
+.form-group input[type="time"],
+.form-group select,
+.form-group textarea {
+    background: rgba(0, 255, 178, 0.04);
+    border: 1px solid rgba(0, 255, 178, 0.15);
+    border-radius: 4px;
+    padding: 10px 13px;
+    color: #e4f5ef;
+    font-family: 'Exo 2', sans-serif;
+    font-size: 0.88rem;
+    transition: all 0.25s;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-group input::placeholder {
+    color: rgba(160, 200, 185, 0.28);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: rgba(0, 255, 178, 0.45);
+    background: rgba(0, 255, 178, 0.07);
+    box-shadow: 0 0 0 3px rgba(0, 255, 178, 0.06), 0 0 12px rgba(0, 255, 178, 0.05);
+}
+
+/* Select arrow */
+.form-group select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2300ffb2' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 34px;
+}
+
+.form-group select option {
+    background: #0a1a12;
+    color: #e4f5ef;
+}
+
+/* Time input calendar icon color fix */
+.form-group input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1) sepia(1) saturate(2) hue-rotate(100deg);
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+/* Checkbox row */
+.form-group--checkbox {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-group--checkbox label {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: rgba(180, 220, 205, 0.8);
+    text-transform: none;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+}
+
+.form-group--checkbox input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #00ffb2;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+/* Submit button in form */
+.modal__form .btn--primary {
+    margin-top: 6px;
+    width: 100%;
+    padding: 13px;
+    font-size: 0.72rem;
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media (max-width: 700px) {
+    .tab-bar {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+    }
+
+    .tab-btn {
+        padding: 9px 14px;
+        font-size: 0.6rem;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .modal {
+        max-width: 100%;
+        margin: 0;
+        border-radius: 6px 6px 0 0;
+    }
+
+    .modal-overlay {
+        align-items: flex-end;
+        padding: 0;
+    }
+}

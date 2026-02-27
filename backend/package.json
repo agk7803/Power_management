@@ -1,18 +1,22 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
-  "main": "server.js",
+  "name": "campus-power-management-backend",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "simulator": "node simulator/simulator.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
-    "@serialport/parser-readline": "^13.0.0",
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
+    "cookies": "^0.9.1",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
     "express": "^5.2.1",
-    "serialport": "^13.0.0"
+    "install": "^0.13.0",
+    "jsonwebtoken": "^9.0.3",
+    "mongodb": "^7.1.0",
+    "mongoose": "^9.2.1",
+    "node-fetch": "^3.3.2"
   }
 }

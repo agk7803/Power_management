@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
 import { api } from "../services/api";
-import "../styles/DashboardPage.css";
+import "../styles/dashboardPage.css";
 
 function DashboardPage() {
     const navigate = useNavigate();
@@ -34,34 +34,34 @@ function DashboardPage() {
     }, [fetchData]);
 
     const stats = dashboard ? [
-        { icon: "⚡", label: "Total Campus Power", value: `${dashboard.activeDevices} active`,  change: `${dashboard.totalDevices} total`, changeType: "neutral", color: "blue"    },
-        { icon: "🏫", label: "Active Classrooms",  value: `${dashboard.activeRooms}`,           change: "rooms",                          changeType: "neutral", color: "purple"  },
-        { icon: "🔋", label: "Energy Today",        value: dashboard.energyToday,               change: "today",                          changeType: "neutral", color: "green"   },
-        { icon: "💰", label: "Today's Cost",        value: dashboard.costToday,                 change: "savings",                        changeType: "down",    color: "emerald" },
-        { icon: "🌿", label: "CO₂ Emissions",       value: dashboard.co2Today,                  change: "today",                          changeType: "down",    color: "teal"    },
-        { icon: "🚨", label: "Anomalies",           value: `${dashboard.anomaliesToday}`,        change: "today",                          changeType: dashboard.anomaliesToday > 0 ? "up" : "down", color: "red" },
+        { icon: "⚡", label: "Total Campus Power", value: `${dashboard.activeDevices} active`, change: `${dashboard.totalDevices} total`, changeType: "neutral", color: "blue" },
+        { icon: "🏫", label: "Active Classrooms", value: `${dashboard.activeRooms}`, change: "rooms", changeType: "neutral", color: "purple" },
+        { icon: "🔋", label: "Energy Today", value: dashboard.energyToday, change: "today", changeType: "neutral", color: "green" },
+        { icon: "💰", label: "Today's Cost", value: dashboard.costToday, change: "savings", changeType: "down", color: "emerald" },
+        { icon: "🌿", label: "CO₂ Emissions", value: dashboard.co2Today, change: "today", changeType: "down", color: "teal" },
+        { icon: "🚨", label: "Anomalies", value: `${dashboard.anomaliesToday}`, change: "today", changeType: dashboard.anomaliesToday > 0 ? "up" : "down", color: "red" },
     ] : [];
 
     const recentAlerts = dashboard?.alerts || [];
-    const hourlyData   = hourly.length > 0 ? hourly.map(h => h.avgPower) : Array(24).fill(0);
-    const maxPower     = Math.max(...hourlyData, 1);
+    const hourlyData = hourly.length > 0 ? hourly.map(h => h.avgPower) : Array(24).fill(0);
+    const maxPower = Math.max(...hourlyData, 1);
 
     /* Build SVG path strings */
-    const points    = hourlyData.map((v, i) => `${i * 20},${200 - (v / maxPower) * 190}`);
-    const linePath  = `M ${points.join(" L ")}`;
-    const areaPath  = `${linePath} L ${(hourlyData.length - 1) * 20},200 L 0,200 Z`;
+    const points = hourlyData.map((v, i) => `${i * 20},${200 - (v / maxPower) * 190}`);
+    const linePath = `M ${points.join(" L ")}`;
+    const areaPath = `${linePath} L ${(hourlyData.length - 1) * 20},200 L 0,200 Z`;
 
     const timeAgo = (dateStr) => {
         const diff = (Date.now() - new Date(dateStr).getTime()) / 1000;
-        if (diff < 60)    return "just now";
-        if (diff < 3600)  return `${Math.floor(diff / 60)} min ago`;
+        if (diff < 60) return "just now";
+        if (diff < 3600) return `${Math.floor(diff / 60)} min ago`;
         if (diff < 86400) return `${Math.floor(diff / 3600)} hr ago`;
         return `${Math.floor(diff / 86400)}d ago`;
     };
 
     const getSeverityIcon = (alert) => {
-        if (alert.severity === "CRITICAL" || alert.severity === "HIGH")                    return "🔴";
-        if (alert.severity === "MEDIUM"   || alert.alertType  === "ANOMALY")               return "🟡";
+        if (alert.severity === "CRITICAL" || alert.severity === "HIGH") return "🔴";
+        if (alert.severity === "MEDIUM" || alert.alertType === "ANOMALY") return "🟡";
         return "🟢";
     };
 
@@ -79,7 +79,7 @@ function DashboardPage() {
                         </div>
                     </div>
                     <div className="stats-grid stats-grid--6">
-                        {[1,2,3,4,5,6].map(i => (
+                        {[1, 2, 3, 4, 5, 6].map(i => (
                             <div key={i} className="stat-card stat-card--blue skeleton-card">
                                 <div className="stat-card__value skeleton">—</div>
                                 <div className="stat-card__label">Loading...</div>
@@ -150,8 +150,8 @@ function DashboardPage() {
                                     <svg viewBox="0 0 480 200" className="line-chart__svg">
                                         <defs>
                                             <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
-                                                <stop offset="0%"   stopColor="#00ffb2" stopOpacity="0.25" />
-                                                <stop offset="100%" stopColor="#00ffb2" stopOpacity="0"    />
+                                                <stop offset="0%" stopColor="#00ffb2" stopOpacity="0.25" />
+                                                <stop offset="100%" stopColor="#00ffb2" stopOpacity="0" />
                                             </linearGradient>
                                             <filter id="chartGlow">
                                                 <feGaussianBlur stdDeviation="2" result="blur" />
@@ -197,7 +197,7 @@ function DashboardPage() {
                                         ))}
                                     </svg>
                                     <div className="line-chart__x-axis">
-                                        {["00","04","08","12","16","20","24"].map(h => (
+                                        {["00", "04", "08", "12", "16", "20", "24"].map(h => (
                                             <span key={h}>{h}:00</span>
                                         ))}
                                     </div>

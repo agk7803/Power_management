@@ -13,7 +13,7 @@ const FEATURES = [
   { icon: '🏆', num: '06', title: 'Green Classroom Leaderboard', desc: 'Ranks classrooms by efficiency and highlights the top 3 energy-saving rooms to drive healthy competition.', tag: 'Gamification' },
   { icon: '🎮', num: '07', title: 'Student Engagement & Badges', desc: 'Energy-saving challenges, digital green badges, department-level competitions and rewards for best-performing classes.', tag: 'Engagement' },
   { icon: '🌍', num: '08', title: 'Carbon Footprint Tracker', desc: 'Converts energy usage to CO₂ emissions in real time, showing carbon saved and environmental impact.', tag: 'Sustainability' }
-];
+ ];
 
 const WHY_POINTS = [
   { icon: '⚡', title: 'Real-Time Intelligence', desc: 'Know exactly which classroom is wasting energy this second — not in a monthly report.' },
@@ -169,12 +169,12 @@ function MetricBar({ label, value, width, delay }) {
 export default function Landing() {
   useRevealOnScroll();
   useParallax();
-
+  
   const navigate = useNavigate();
 
   return (
     <>
-
+     
 
       {/* NAV */}
       <nav className="landing-nav">
@@ -184,7 +184,7 @@ export default function Landing() {
           <li><a href="#why">Why Us</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
-        <button className="landing-nav-cta" data-hover onClick={() => navigate('/auth')}>Login</button>
+        <button className="landing-nav-cta" data-hover onClick={() => navigate('/auth')}>Get Demo</button>
       </nav>
 
       {/* ── HERO ── */}
@@ -303,12 +303,12 @@ export default function Landing() {
           </div>
 
           <div className="landing-why-right">
-            <div className="landing-section-label landing-reveal">Why VoltEdge</div>
+            <div className="landing-section-label landing-reveal">Why EnergyIQ</div>
             <h2 className="landing-section-title landing-reveal landing-reveal-delay-1">
               Built for Colleges.<br />Designed for Impact.
             </h2>
             <p className="landing-section-desc landing-reveal landing-reveal-delay-2">
-              Other solutions are expensive, rigid, and cloud-dependent. VoltEdge is modular,
+              Other solutions are expensive, rigid, and cloud-dependent. EnergyIQ is modular,
               affordable, and works even when the internet is down — while students actually engage with it.
             </p>
             <div className="landing-why-points" style={{ marginTop: '2.5rem' }}>

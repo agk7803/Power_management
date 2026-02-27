@@ -2,12 +2,12 @@ import React, { useState, useEffect, useCallback } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { api } from "../services/api";
-
+import "../styles/layout.css";
 
 // Role-based nav filtering
 const ROLE_ACCESS = {
-    admin: ["dashboard", "classrooms", "analytics", "ai-insights", "cost", "carbon", "leaderboard", "alerts", "admin"],
-    faculty: ["dashboard", "classrooms", "analytics", "ai-insights", "cost", "carbon", "leaderboard", "alerts"],
+    admin: ["dashboard", "classrooms", "analytics", "ai-insights", "cost", "carbon", "leaderboard", "alerts", "automation", "admin"],
+    faculty: ["dashboard", "classrooms", "analytics", "ai-insights", "cost", "carbon", "leaderboard", "alerts", "automation"],
     student: ["dashboard", "classrooms", "leaderboard", "carbon"],
 };
 
@@ -29,7 +29,6 @@ function Layout({ children }) {
     // Fetch Notifications
     const fetchNotifications = useCallback(async () => {
         try {
-            // Get unacknowledged alerts
             const data = await api.get("/alerts?acknowledged=false&limit=5");
             setNotifications(data);
             setUnreadCount(data.length);
@@ -40,7 +39,7 @@ function Layout({ children }) {
 
     useEffect(() => {
         fetchNotifications();
-        const interval = setInterval(fetchNotifications, 30000); // Poll every 30s
+        const interval = setInterval(fetchNotifications, 30000);
         return () => clearInterval(interval);
     }, [fetchNotifications]);
 
@@ -69,14 +68,13 @@ function Layout({ children }) {
         { path: "/carbon", icon: "🌍", label: "Carbon", key: "carbon" },
         { path: "/leaderboard", icon: "🏆", label: "Leaderboard", key: "leaderboard" },
         { path: "/alerts", icon: "🚨", label: "Alerts", key: "alerts" },
+        { path: "/automation", icon: "🤖", label: "Automation", key: "automation" },
         { path: "/admin", icon: "⚙️", label: "Admin", key: "admin" },
     ];
 
-    // Filter nav items by user role
     const userRole = user?.role || "student";
     const allowed = ROLE_ACCESS[userRole] || ROLE_ACCESS.student;
     const navItems = allNavItems.filter(item => allowed.includes(item.key));
-
     const userName = user?.name || "User";
     const userInitial = userName.charAt(0).toUpperCase();
     const roleLabel = userRole.charAt(0).toUpperCase() + userRole.slice(1);
@@ -94,8 +92,11 @@ function Layout({ children }) {
 
     return (
         <div className="layout" onClick={() => setShowDropdown(false)}>
+
             {/* Sidebar */}
             <aside className={`sidebar ${sidebarOpen ? "sidebar--open" : "sidebar--collapsed"}`}>
+                {/* ── Scanline sweep — clipped to sidebar by overflow:hidden ── */}
+                <div className="sidebar-scanline" />
                 <div className="sidebar__header">
                     <div className="sidebar__logo">
                         <span className="sidebar__logo-icon">⚡</span>
@@ -212,16 +213,19 @@ function Layout({ children }) {
                                 </div>
                             )}
                         </div>
+
                         <div className="topbar__live-indicator">
-                            <span className="topbar__live-dot"></span>
+                            <span className="topbar__live-dot" />
                             <span>Live</span>
                         </div>
+
                         <div className="topbar__datetime">
                             <span className="topbar__date">{dateStr}</span>
                             <span className="topbar__time">{timeStr}</span>
                         </div>
                     </div>
                 </header>
+
                 <div className="layout__content">{children}</div>
             </main>
         </div>

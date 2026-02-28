@@ -195,6 +195,9 @@ function AIInsightsPage() {
     const [forecastLoading, setForecastLoading] = useState(false);
     const [efficiencyLoading, setEfficiencyLoading] = useState(false);
     const [forecastView, setForecastView] = useState("today"); // "today" | "tomorrow"
+    const [explainData, setExplainData] = useState(null);
+    const [explainLoading, setExplainLoading] = useState(false);
+    const [explainError, setExplainError] = useState(null);
 
     // ── Load overview data ──
     useEffect(() => {
@@ -232,6 +235,17 @@ function AIInsightsPage() {
         if (id === "forecast") loadForecast();
         if (id === "efficiency") loadEfficiency();
     };
+
+    // ── Load OpenRouter AI explanation (Llama 3 instruct) ──
+    const loadExplainAI = useCallback(() => {
+        if (explainLoading) return;
+        setExplainLoading(true);
+        setExplainError(null);
+        api.post("/ai/explain", {})
+            .then(data => setExplainData(data))
+            .catch(err => setExplainError(err.message || "Failed to get AI explanation"))
+            .finally(() => setExplainLoading(false));
+    }, [explainLoading]);
 
     // ── Overview derived data ──
     const anomalyAlerts = alerts.filter(a => a.type === "ANOMALY");
@@ -354,6 +368,134 @@ function AIInsightsPage() {
                                         ))
                                     )}
                                 </div>
+                            </div>
+
+                            {/* ── Explain AI Panel ── */}
+                            <div className="card ai-explain-card" style={{ marginTop: 20 }}>
+                                <div className="card__header">
+                                    <h3 className="card__title">🤖 Explain with OpenRouter AI</h3>
+                                    <button
+                                        className={`ai-explain-btn ${explainLoading ? "ai-explain-btn--loading" : ""}`}
+                                        onClick={loadExplainAI}
+                                        disabled={explainLoading}
+                                    >
+                                        {explainLoading ? (
+                                            <><span className="ai-explain-btn__spinner" /> Analyzing...</>
+                                        ) : explainData ? (
+                                            "🔄 Re-analyze"
+                                        ) : (
+                                            "✨ Explain with OpenRouter AI"
+                                        )}
+                                    </button>
+                                </div>
+
+                                {explainError && (
+                                    <div className="ai-explain-error">
+                                        ⚠️ {explainError}
+                                    </div>
+                                )}
+
+                                {explainLoading && (
+                                    <div className="ai-explain-skeleton">
+                                        <div className="ai-explain-skeleton__bar ai-explain-skeleton__bar--w80" />
+                                        <div className="ai-explain-skeleton__bar ai-explain-skeleton__bar--w60" />
+                                        <div className="ai-explain-skeleton__bar ai-explain-skeleton__bar--w90" />
+                                        <div className="ai-explain-skeleton__bar ai-explain-skeleton__bar--w50" />
+                                        <div className="ai-explain-skeleton__bar ai-explain-skeleton__bar--w70" />
+                                        <p style={{ textAlign: "center", color: "#8b5cf6", fontSize: 13, marginTop: 16 }}>
+                                            OpenRouter AI (Llama 3) is analyzing anomaly patterns, cross-referencing timetables, and generating optimization advice...
+                                        </p>
+                                    </div>
+                                )}
+
+                                {!explainLoading && explainData && (
+                                    <div className="ai-explain-results">
+                                        {/* Overall Assessment */}
+                                        {explainData.overallAssessment && (
+                                            <div className="ai-explain-assessment">
+                                                <span className="ai-explain-assessment__icon">📋</span>
+                                                <p>{explainData.overallAssessment}</p>
+                                            </div>
+                                        )}
+
+                                        {/* Anomaly Explanations */}
+                                        {explainData.anomalyExplanations && explainData.anomalyExplanations.length > 0 && (
+                                            <div className="ai-explain-section">
+                                                <h4 className="ai-explain-section__title">🔍 Anomaly Explanations</h4>
+                                                <div className="ai-explain-section__list">
+                                                    {explainData.anomalyExplanations.map((exp, i) => (
+                                                        <div key={i} className={`ai-anomaly-detail ai-anomaly-detail--${exp.anomalyType}`}>
+                                                            <div className="ai-anomaly-detail__header">
+                                                                <span className="ai-anomaly-detail__icon">{exp.icon || "📊"}</span>
+                                                                <div>
+                                                                    <h5 className="ai-anomaly-detail__title">{exp.title}</h5>
+                                                                    <span className={`tag tag--${exp.anomalyType === "power_spike" ? "red" : exp.anomalyType === "occupancy_mismatch" ? "orange" : exp.anomalyType === "idle_waste" ? "blue" : "purple"}`}>
+                                                                        {exp.anomalyType?.replace(/_/g, " ").toUpperCase()}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <p className="ai-anomaly-detail__text">{exp.explanation}</p>
+                                                            <div className="ai-anomaly-detail__meta">
+                                                                <div className="ai-anomaly-detail__meta-item">
+                                                                    <span className="ai-anomaly-detail__meta-label">Root Cause</span>
+                                                                    <span className="ai-anomaly-detail__meta-value">{exp.rootCause}</span>
+                                                                </div>
+                                                                <div className="ai-anomaly-detail__meta-item">
+                                                                    <span className="ai-anomaly-detail__meta-label">Severity Note</span>
+                                                                    <span className="ai-anomaly-detail__meta-value">{exp.severityNote}</span>
+                                                                </div>
+                                                                {exp.affectedEquipment && exp.affectedEquipment.length > 0 && (
+                                                                    <div className="ai-anomaly-detail__meta-item">
+                                                                        <span className="ai-anomaly-detail__meta-label">Affected Equipment</span>
+                                                                        <span className="ai-anomaly-detail__meta-value">
+                                                                            {exp.affectedEquipment.map((eq, j) => (
+                                                                                <span key={j} className="tag tag--gray" style={{ marginRight: 4, fontSize: 10 }}>{eq}</span>
+                                                                            ))}
+                                                                        </span>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* Optimization Suggestions */}
+                                        {explainData.optimizationSuggestions && explainData.optimizationSuggestions.length > 0 && (
+                                            <div className="ai-explain-section">
+                                                <h4 className="ai-explain-section__title">💡 Energy Optimization Suggestions</h4>
+                                                <div className="ai-explain-section__list">
+                                                    {explainData.optimizationSuggestions.map((tip, i) => (
+                                                        <div key={i} className="ai-optimization-tip">
+                                                            <div className="ai-optimization-tip__header">
+                                                                <span className="ai-optimization-tip__icon">{tip.icon || "💡"}</span>
+                                                                <h5 className="ai-optimization-tip__title">{tip.title}</h5>
+                                                                <span className={`tag tag--${tip.priority === "HIGH" ? "red" : tip.priority === "MEDIUM" ? "orange" : "blue"}`}>
+                                                                    {tip.priority}
+                                                                </span>
+                                                            </div>
+                                                            <p className="ai-optimization-tip__desc">{tip.description}</p>
+                                                            {tip.estimatedSavings && (
+                                                                <div className="ai-optimization-tip__savings">
+                                                                    <span>💰 Estimated Savings:</span>
+                                                                    <strong>{tip.estimatedSavings}</strong>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+
+                                {!explainLoading && !explainData && !explainError && (
+                                    <div className="ai-explain-placeholder">
+                                        <div className="ai-explain-placeholder__icon">✨</div>
+                                        <p>Click <strong>"Explain with Gemini AI"</strong> to get a detailed analysis of current anomalies, root cause identification, and actionable energy optimization advice.</p>
+                                    </div>
+                                )}
                             </div>
                         </>
                     )

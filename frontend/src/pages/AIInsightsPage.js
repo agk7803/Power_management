@@ -236,7 +236,7 @@ function AIInsightsPage() {
         if (id === "efficiency") loadEfficiency();
     };
 
-    // ── Load OpenRouter AI explanation (Llama 3 instruct) ──
+    // ── Load Local AI explanation (Ollama) ──
     const loadExplainAI = useCallback(() => {
         if (explainLoading) return;
         setExplainLoading(true);
@@ -373,7 +373,7 @@ function AIInsightsPage() {
                             {/* ── Explain AI Panel ── */}
                             <div className="card ai-explain-card" style={{ marginTop: 20 }}>
                                 <div className="card__header">
-                                    <h3 className="card__title">🤖 Explain with OpenRouter AI</h3>
+                                    <h3 className="card__title">🤖 Explain with Local AI</h3>
                                     <button
                                         className={`ai-explain-btn ${explainLoading ? "ai-explain-btn--loading" : ""}`}
                                         onClick={loadExplainAI}
@@ -384,7 +384,7 @@ function AIInsightsPage() {
                                         ) : explainData ? (
                                             "🔄 Re-analyze"
                                         ) : (
-                                            "✨ Explain with OpenRouter AI"
+                                            "✨ Explain with Local AI"
                                         )}
                                     </button>
                                 </div>
@@ -403,7 +403,7 @@ function AIInsightsPage() {
                                         <div className="ai-explain-skeleton__bar ai-explain-skeleton__bar--w50" />
                                         <div className="ai-explain-skeleton__bar ai-explain-skeleton__bar--w70" />
                                         <p style={{ textAlign: "center", color: "#8b5cf6", fontSize: 13, marginTop: 16 }}>
-                                            OpenRouter AI (Llama 3) is analyzing anomaly patterns, cross-referencing timetables, and generating optimization advice...
+                                            Local AI (Ollama) is analyzing anomaly patterns, cross-referencing timetables, and generating optimization advice...
                                         </p>
                                     </div>
                                 )}
@@ -493,7 +493,7 @@ function AIInsightsPage() {
                                 {!explainLoading && !explainData && !explainError && (
                                     <div className="ai-explain-placeholder">
                                         <div className="ai-explain-placeholder__icon">✨</div>
-                                        <p>Click <strong>"Explain with Gemini AI"</strong> to get a detailed analysis of current anomalies, root cause identification, and actionable energy optimization advice.</p>
+                                        <p>Click <strong>"Explain with Local AI"</strong> to get a completely free, private analysis of current anomalies, root cause identification, and actionable energy optimization advice using your local machine.</p>
                                     </div>
                                 )}
                             </div>

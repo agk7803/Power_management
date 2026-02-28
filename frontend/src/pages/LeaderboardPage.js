@@ -97,9 +97,7 @@ function LeaderboardPage() {
                                     <div className="podium__medal">{getMedal(i)}</div>
                                     <h3 className="podium__name">{room.name}</h3>
                                     <p className="podium__fullname">{room.fullName}</p>
-                                    <div className={`podium__score tag tag--${getScoreColor(room.score)}`}>
-                                        {room.score}/100
-                                    </div>
+        
                                     <p className="podium__energy">{room.totalEnergy} kWh</p>
                                 </div>
                             ))}
@@ -118,7 +116,6 @@ function LeaderboardPage() {
                                             <th>Rank</th>
                                             <th>Room</th>
                                             <th>Name</th>
-                                            <th>Efficiency Score</th>
                                             <th>Energy (kWh)</th>
                                             <th>Avg Power (W)</th>
                                             <th>Anomalies</th>
@@ -131,17 +128,7 @@ function LeaderboardPage() {
                                                 <td><strong>{getMedal(i)}</strong></td>
                                                 <td><strong>{room.name}</strong></td>
                                                 <td>{room.fullName}</td>
-                                                <td>
-                                                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                                                        <div className="progress-bar" style={{ width: 80 }}>
-                                                            <div
-                                                                className={`progress-bar__fill progress-bar__fill--${getScoreColor(room.score)}`}
-                                                                style={{ width: `${room.score}%` }}
-                                                            />
-                                                        </div>
-                                                        <span>{room.score}</span>
-                                                    </div>
-                                                </td>
+                                               
                                                 <td>{room.totalEnergy}</td>
                                                 <td>{room.avgPower}W</td>
                                                 <td>

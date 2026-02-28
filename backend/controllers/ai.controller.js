@@ -77,24 +77,25 @@ export const explainAnomaliesHandler = async (req, res) => {
 
         return res.json(explanation);
     } catch (error) {
-        console.error("OpenRouter Explain Error:", error);
+        console.error("Local AI Explain Error:", error);
 
-        if (error.message?.includes("OPENROUTER_API_KEY")) {
+        // Handle Ollama connection errors cleanly
+        if (error.code === 'ECONNREFUSED' || error.message.includes('fetch failed')) {
             return res.status(503).json({
-                message: "OpenRouter API key not configured. Add OPENROUTER_API_KEY to your backend/.env file.",
+                message: "Cannot connect to Local AI. Please ensure Ollama is installed and running in the background (http://localhost:11434).",
                 anomalyExplanations: [],
                 optimizationSuggestions: [],
-                overallAssessment: "AI explanation service is not configured."
+                overallAssessment: "Local AI service is unreachable."
             });
         }
 
-        // Handle OpenRouter API errors gracefully
-        if (error.status === 401 || error.status === 403 || error.message?.includes("OpenRouter API error")) {
+        // Handle Ollama API errors gracefully
+        if (error.status === 404 || error.message?.includes("Local AI API error")) {
             return res.status(503).json({
-                message: "OpenRouter API Error: " + (error.message || "Invalid API Key or missing permissions."),
+                message: "Local AI API Error: " + (error.message || "Model not found. Try running 'ollama run llama3' in your terminal."),
                 anomalyExplanations: [],
                 optimizationSuggestions: [],
-                overallAssessment: "AI explanation failed due to an API key or credit issue."
+                overallAssessment: "AI explanation failed due to model availability."
             });
         }
 

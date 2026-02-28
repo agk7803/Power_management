@@ -95,13 +95,13 @@ function ClassroomsPage() {
             weekDayMap[dayName] += (entry.energy || 0);
         }
     });
-    const dailyUsage = weekDays.map(day => ({ day, usage: parseFloat(weekDayMap[day].toFixed(2)) }));
+    const dailyUsage = weekDays.map(day => ({ day, usage: parseFloat(weekDayMap[day].toFixed(4)) }));
     const maxDailyUsage = Math.max(...dailyUsage.map(d => d.usage), 0.01);
 
     const isToday = selectedDate === getLocalDateStr();
     const livePower = isToday ? (latestEnergy?.power || 0) : 0;
-    const dateUsage = history.reduce((sum, e) => sum + (e.energy || 0), 0).toFixed(2);
-    const dateCost = history.reduce((sum, e) => sum + (e.cost || 0), 0).toFixed(2);
+    const dateUsage = history.reduce((sum, e) => sum + (e.energy || 0), 0).toFixed(4);
+    const dateCost = history.reduce((sum, e) => sum + (e.cost || 0), 0).toFixed(4);
     const dateLabel = isToday ? "Today" : new Date(selectedDate).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
 
     // Avg voltage/current from history (for past dates)
